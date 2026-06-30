@@ -1,0 +1,258 @@
+@import "tailwindcss";
+
+/* ===== VS CODE THEME TOKENS ===== */
+:root {
+  /* Core backgrounds */
+  --bg-editor: #1E1E1E;
+  --bg-sidebar: #252526;
+  --bg-activitybar: #333333;
+  --bg-tab-active: #1E1E1E;
+  --bg-tab-inactive: #2D2D2D;
+  --bg-statusbar: #007ACC;
+  --bg-terminal: #1E1E1E;
+  --bg-titlebar: #3C3C3C;
+  --bg-breadcrumb: #1E1E1E;
+  --bg-minimap: #1E1E1E;
+  --bg-input: #3C3C3C;
+  --bg-dropdown: #252526;
+  --bg-hover: #2A2D2E;
+  --bg-selection: #264F78;
+  --bg-line-highlight: #2A2D2E;
+  --bg-command-palette: #252526;
+
+  /* Borders */
+  --border-primary: #3C3C3C;
+  --border-active: #007ACC;
+  --border-tab: #252526;
+
+  /* Text colors */
+  --text-primary: #D4D4D4;
+  --text-secondary: #CCCCCC;
+  --text-muted: #858585;
+  --text-active: #FFFFFF;
+  --text-link: #3794FF;
+  --text-statusbar: #FFFFFF;
+
+  /* Syntax highlighting - VS Code Dark+ theme */
+  --syntax-keyword: #569CD6;
+  --syntax-string: #CE9178;
+  --syntax-number: #B5CEA8;
+  --syntax-comment: #6A9955;
+  --syntax-function: #DCDCAA;
+  --syntax-class: #4EC9B0;
+  --syntax-variable: #9CDCFE;
+  --syntax-type: #4EC9B0;
+  --syntax-operator: #D4D4D4;
+  --syntax-property: #9CDCFE;
+  --syntax-punctuation: #D4D4D4;
+  --syntax-tag: #569CD6;
+  --syntax-attribute: #9CDCFE;
+  --syntax-decorator: #DCDCAA;
+  --syntax-constant: #4FC1FF;
+  --syntax-param: #9CDCFE;
+
+  /* Markdown */
+  --md-heading: #569CD6;
+  --md-bold: #569CD6;
+  --md-italic: #CE9178;
+  --md-link: #3794FF;
+  --md-code: #CE9178;
+  --md-list: #6A9955;
+
+  /* Line numbers */
+  --line-number: #858585;
+  --line-number-active: #C6C6C6;
+
+  /* Scrollbar */
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: #424242;
+  --scrollbar-thumb-hover: #4F4F4F;
+
+  /* Minimap */
+  --minimap-bg: #1E1E1E;
+
+  /* Terminal */
+  --terminal-green: #4EC9B0;
+  --terminal-yellow: #DCDCAA;
+  --terminal-blue: #569CD6;
+  --terminal-red: #F44747;
+  --terminal-cyan: #4FC1FF;
+  --terminal-magenta: #C586C0;
+
+  /* Animations */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+
+  color-scheme: dark;
+}
+
+/* Light theme override */
+[data-theme="light"] {
+  --bg-editor: #FFFFFF;
+  --bg-sidebar: #F3F3F3;
+  --bg-activitybar: #2C2C2C;
+  --bg-tab-active: #FFFFFF;
+  --bg-tab-inactive: #ECECEC;
+  --bg-statusbar: #007ACC;
+  --bg-terminal: #FFFFFF;
+  --bg-titlebar: #DDDDDD;
+  --bg-breadcrumb: #FFFFFF;
+  --bg-minimap: #FFFFFF;
+  --bg-input: #FFFFFF;
+  --bg-dropdown: #F3F3F3;
+  --bg-hover: #E8E8E8;
+  --bg-selection: #ADD6FF;
+  --bg-line-highlight: #F0F0F0;
+  --bg-command-palette: #F3F3F3;
+
+  --border-primary: #CECECE;
+  --border-active: #007ACC;
+  --border-tab: #F3F3F3;
+
+  --text-primary: #333333;
+  --text-secondary: #444444;
+  --text-muted: #999999;
+  --text-active: #000000;
+  --text-link: #006AB1;
+  --text-statusbar: #FFFFFF;
+
+  --syntax-keyword: #0000FF;
+  --syntax-string: #A31515;
+  --syntax-number: #098658;
+  --syntax-comment: #008000;
+  --syntax-function: #795E26;
+  --syntax-class: #267F99;
+  --syntax-variable: #001080;
+  --syntax-type: #267F99;
+  --syntax-operator: #000000;
+  --syntax-property: #001080;
+  --syntax-punctuation: #000000;
+  --syntax-tag: #800000;
+  --syntax-attribute: #FF0000;
+  --syntax-decorator: #795E26;
+  --syntax-constant: #0070C1;
+  --syntax-param: #001080;
+
+  --md-heading: #0000FF;
+  --md-bold: #0000FF;
+  --md-italic: #A31515;
+  --md-link: #006AB1;
+  --md-code: #A31515;
+  --md-list: #008000;
+
+  --line-number: #999999;
+  --line-number-active: #333333;
+
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: #C1C1C1;
+  --scrollbar-thumb-hover: #A8A8A8;
+
+  --minimap-bg: #FFFFFF;
+
+  --terminal-green: #267F99;
+  --terminal-yellow: #795E26;
+  --terminal-blue: #0000FF;
+  --terminal-red: #CD3131;
+  --terminal-cyan: #0070C1;
+  --terminal-magenta: #AF00DB;
+
+  color-scheme: light;
+}
+
+/* ===== TAILWIND THEME INTEGRATION ===== */
+@theme inline {
+  --color-background: var(--bg-editor);
+  --color-foreground: var(--text-primary);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* ===== BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-editor);
+  color: var(--text-primary);
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-editor);
+}
+
+/* ===== SELECTION ===== */
+::selection {
+  background: var(--bg-selection);
+  color: inherit;
+}
+
+/* ===== CURSOR BLINK ===== */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ===== TYPING ANIMATION ===== */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ===== GLOW EFFECT FOR STATUS ===== */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ===== FOCUS STYLES ===== */
+*:focus-visible {
+  outline: 1px solid var(--border-active);
+  outline-offset: -1px;
+}
+
+/* ===== UTILITY ===== */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
