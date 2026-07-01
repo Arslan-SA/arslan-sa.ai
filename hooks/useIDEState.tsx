@@ -32,7 +32,8 @@ type IDEAction =
   | { type: 'TOGGLE_THEME' }
   | { type: 'SET_SIDEBAR_ICON'; payload: string }
   | { type: 'SET_TERMINAL_HEIGHT'; payload: number }
-  | { type: 'SET_EXPLORER_WIDTH'; payload: number };
+  | { type: 'SET_EXPLORER_WIDTH'; payload: number }
+  | { type: 'SET_TERMINAL_VISIBLE'; payload: boolean };
 
 const initialState: IDEState = {
   tabs: [
@@ -107,6 +108,8 @@ function ideReducer(state: IDEState, action: IDEAction): IDEState {
       return { ...state, terminalHeight: action.payload };
     case 'SET_EXPLORER_WIDTH':
       return { ...state, explorerWidth: action.payload };
+    case 'SET_TERMINAL_VISIBLE':
+      return { ...state, terminalVisible: action.payload };
     default:
       return state;
   }
@@ -123,6 +126,7 @@ interface IDEContextType {
   toggleCommandPalette: () => void;
   toggleTheme: () => void;
   setSidebarIcon: (icon: string) => void;
+  setTerminalVisible: (visible: boolean) => void;
 }
 
 const IDEContext = createContext<IDEContextType | null>(null);
@@ -166,6 +170,10 @@ export function IDEProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_SIDEBAR_ICON', payload: icon });
   }, []);
 
+  const setTerminalVisible = useCallback((visible: boolean) => {
+    dispatch({ type: 'SET_TERMINAL_VISIBLE', payload: visible });
+  }, []);
+
   return (
     <IDEContext.Provider
       value={{
@@ -179,6 +187,7 @@ export function IDEProvider({ children }: { children: React.ReactNode }) {
         toggleCommandPalette,
         toggleTheme,
         setSidebarIcon,
+        setTerminalVisible,
       }}
     >
       {children}

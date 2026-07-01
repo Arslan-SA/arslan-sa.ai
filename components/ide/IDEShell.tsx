@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useIDE } from '@/hooks/useIDEState';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import ActivityBar from './ActivityBar';
@@ -10,15 +11,31 @@ import Minimap from './Minimap';
 import StatusBar from './StatusBar';
 import Terminal from './Terminal';
 import CommandPalette from './CommandPalette';
+import MenuBar from './MenuBar';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function IDEShell() {
   useKeyboardShortcuts();
-  const { state } = useIDE();
+  const { state, setTerminalVisible } = useIDE();
   const { sidebarVisible, terminalVisible, commandPaletteVisible } = state;
+
+  // Auto-open terminal on first load for boot animation
+  const [autoOpened, setAutoOpened] = useState(false);
+  useEffect(() => {
+    if (!autoOpened) {
+      const timer = setTimeout(() => {
+        setTerminalVisible(true);
+        setAutoOpened(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [autoOpened, setTerminalVisible]);
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden" style={{ background: 'var(--bg-editor)' }}>
+      {/* Menu Bar */}
+      <MenuBar />
+
       {/* Main content area */}
       <div className="flex flex-1 min-h-0">
         {/* Activity Bar */}
