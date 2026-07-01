@@ -258,27 +258,46 @@ export default function Terminal() {
       style={{ background: 'var(--bg-terminal)' }}
       onClick={() => bootComplete && inputRef.current?.focus()}
     >
-      {/* Terminal header */}
+      {/* Panel header with tabs */}
       <div
-        className="flex items-center justify-between px-3 py-1 flex-shrink-0"
+        className="flex items-center justify-between px-0 py-0 flex-shrink-0"
         style={{
           background: 'var(--bg-titlebar)',
           borderBottom: '1px solid var(--border-primary)',
         }}
       >
-        <div className="flex items-center gap-4">
-          <span
-            className="text-xs uppercase tracking-wider flex items-center gap-1.5 px-2 py-0.5"
-            style={{
-              color: 'var(--text-primary)',
-              borderBottom: '1px solid var(--text-primary)',
-            }}
-          >
-            <VscTerminal size={14} />
-            Terminal
-          </span>
+        <div className="flex items-center">
+          {['PROBLEMS', 'OUTPUT', 'DEBUG CONSOLE', 'TERMINAL', 'PORTS'].map((tab) => {
+            const isActive = tab === 'TERMINAL';
+            return (
+              <button
+                key={tab}
+                className="relative px-3 py-1.5 text-[11px] uppercase tracking-wider"
+                style={{
+                  color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  fontWeight: isActive ? 500 : 400,
+                }}
+              >
+                {tab === 'TERMINAL' && (
+                  <span className="flex items-center gap-1.5">
+                    <VscTerminal size={14} />
+                    {tab}
+                  </span>
+                )}
+                {tab !== 'TERMINAL' && tab}
+                {isActive && (
+                  <div
+                    className="absolute bottom-0 left-0 right-0"
+                    style={{ height: 1, background: 'var(--text-primary)' }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 pr-2">
           <button
             className="p-0.5 rounded hover:bg-[var(--bg-hover)]"
             style={{ color: 'var(--text-muted)' }}
@@ -302,6 +321,14 @@ export default function Terminal() {
             aria-label="Kill Terminal"
           >
             <VscTrash size={14} />
+          </button>
+          <button
+            className="p-0.5 rounded hover:bg-[var(--bg-hover)]"
+            style={{ color: 'var(--text-muted)' }}
+            title="Maximize Panel"
+            aria-label="Maximize Panel"
+          >
+            <VscChevronDown size={14} />
           </button>
           <button
             className="p-0.5 rounded hover:bg-[var(--bg-hover)]"
