@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useIDE } from '@/hooks/useIDEState';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import ActivityBar from './ActivityBar';
@@ -30,6 +30,45 @@ export default function IDEShell() {
       return () => clearTimeout(timer);
     }
   }, [autoOpened, setTerminalVisible]);
+
+  // Resizable terminal state
+  const [terminalHeight, setTerminalHeight] = useState(220);
+  const isDragging = useRef(false);
+  const startY = useRef(0);
+  const startHeight = useRef(220);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    isDragging.current = true;
+    startY.current = e.clientY;
+    startHeight.current = terminalHeight;
+    document.body.style.cursor = 'row-resize';
+    document.body.style.userSelect = 'none';
+  }, [terminalHeight]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      const delta = startY.current - e.clientY;
+      const newHeight = Math.max(100, Math.min(600, startHeight.current + delta));
+      setTerminalHeight(newHeight);
+    };
+
+    const handleMouseUp = () => {
+      if (isDragging.current) {
+        isDragging.current = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col h-screen w-screen overflow-hidden" style={{ background: 'var(--bg-editor)' }}>
@@ -104,12 +143,33 @@ export default function IDEShell() {
             {terminalVisible && (
               <motion.div
                 initial={{ height: 0 }}
-                animate={{ height: 220 }}
+                animate={{ height: terminalHeight }}
                 exit={{ height: 0 }}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="flex-shrink-0 overflow-hidden"
-                style={{ borderTop: '1px solid var(--border-primary)' }}
+                transition={isDragging.current ? { duration: 0 } : { duration: 0.2, ease: 'easeInOut' }}
+                className="flex-shrink-0 overflow-hidden relative"
+                style={{
+                  borderTop: '1px solid var(--border-primary)',
+                  height: terminalHeight,
+                }}
               >
+                {/* Resize handle */}
+                <div
+                  onMouseDown={handleMouseDown}
+                  className="absolute top-0 left-0 right-0 z-10"
+                  style={{
+                    height: 4,
+                    cursor: 'row-resize',
+                    background: 'transparent',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.background = 'var(--border-active)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isDragging.current) {
+                      (e.currentTarget as HTMLElement).style.background = 'transparent';
+                    }
+                  }}
+                />
                 <Terminal />
               </motion.div>
             )}

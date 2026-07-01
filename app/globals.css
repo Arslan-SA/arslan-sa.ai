@@ -180,7 +180,7 @@ html, body {
   background: var(--bg-editor);
   color: var(--text-primary);
   font-family: var(--font-jetbrains-mono), 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -236,15 +236,16 @@ export default function MenuBar() {
       </div>
 
       {/* Menu items */}
-      <div className="flex items-center">
+      <div className="flex items-center gap-1">
         {menus.map((menu) => (
           <div key={menu.label} className="relative">
             <button
-              className="px-2.5 py-1 text-xs rounded-sm"
+              className="px-3 py-1 text-xs rounded-sm font-semibold"
               style={{
                 color: activeMenu === menu.label ? 'var(--text-active)' : 'var(--text-secondary)',
                 background: activeMenu === menu.label ? 'var(--bg-hover)' : 'transparent',
                 transition: 'background 100ms ease, color 100ms ease',
+                letterSpacing: '0.02em',
               }}
               onMouseEnter={() => handleMenuHover(menu.label)}
               onMouseDown={(e) => {
